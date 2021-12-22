@@ -1,17 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
-from models.base_model import BaseModel
-from models.user import User
-from models.place import Place
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.review import Review
-
-classes = {"BaseModel": BaseModel, "User": User, "State": State,
-           "Amenity": Amenity, "Place": Place, "City": City, "Review": Review}
-
 
 class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
@@ -53,6 +42,18 @@ class FileStorage:
             json.dump(temp, f)
 
     def reload(self):
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.review import Review
+
+        classes = {"BaseModel": BaseModel, "User": User, "State": State,
+                   "Amenity": Amenity, "Place": Place, "City": City,
+                   "Review": Review}
+
 
         """deserializes the JSON file to __objects
         - only if the JSON file (__file_path) exists

@@ -9,11 +9,10 @@ from os import getenv
 from sqlalchemy import ForeignKey
 from models.review import Review
 
-
-class Place(BaseModel, Base):
-    """ A place to stay """
-    __tablename__ = 'places'
-    if getenv('HBNB_TYPE_STORAGE') == 'db':
+if getenv('HBNB_TYPE_STORAGE') == 'db':
+    class Place(BaseModel, Base):
+        """ A place to stay """
+        __tablename__ = 'places'
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
         name = Column(String(128), nullable=False)
@@ -26,17 +25,6 @@ class Place(BaseModel, Base):
         longitude = Column(Float)
         reviews = relationship("Review", backref="place",
                                cascade="all, delete")
-    else:
-        city_id = ''
-        user_id = ''
-        name = ''
-        description = ''
-        number_rooms = ''
-        number_bathrooms = ''
-        max_guest = ''
-        price_by_night = ''
-        latitude = ''
-        longitude = ''
 
         @property
         def reviews(self):
@@ -50,3 +38,17 @@ class Place(BaseModel, Base):
             for each in total_reviews.values():
                 result.append(each)
             return result
+else:
+    class Place(BaseModel):
+        city_id = ''
+        user_id = ''
+        name = ''
+        description = ''
+        number_rooms = ''
+        number_bathrooms = ''
+        max_guest = ''
+        price_by_night = ''
+        latitude = ''
+        longitude = ''
+
+
