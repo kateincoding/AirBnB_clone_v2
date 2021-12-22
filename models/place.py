@@ -4,7 +4,7 @@ from models.base_model import BaseModel
 from models import storage
 from sqlalchemy import Table, Column
 from sqlalchemy import Integer, Float, String
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from os import getenv
 from sqlalchemy import ForeignKey
 from models.review import Review
