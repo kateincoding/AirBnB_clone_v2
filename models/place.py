@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel
-from models import storage
+import models
 from sqlalchemy import Table, Column
 from sqlalchemy import Integer, Float, String
 from sqlalchemy.orm import relationship, backref
@@ -45,7 +45,7 @@ class Place(BaseModel):
             to the current Place.id => It will be the FileStorage
             relationship between Place and Review
             """
-            total_reviews = storage.all(Review)
+            total_reviews = models.storage.all(Review)
             result = []
             for each in total_reviews.values():
                 result.append(each)
