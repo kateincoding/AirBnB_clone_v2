@@ -1,13 +1,20 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
+from sqlalchemy.ext.declarative import declarative_base
 import models
-from sqlalchemy import Table, Column
-from sqlalchemy import Integer, Float, String
+from sqlalchemy import Column, Integer, Float, String
 from sqlalchemy.orm import relationship, backref
 from os import getenv
-from sqlalchemy import ForeignKey
+from sqlalchemy.sql.schema import ForeignKey, Table
 from models.review import Review
+from models.amenity import Amenity
+
+
+column_amenity = Column('amenity_id', String(60), ForeignKey('amenities.id'))
+place_amenity = Table('place_amenity', Base.metadata,
+                      Column('place_id', String(60), ForeignKey('places.id')),
+                      column_amenity)
 
 if getenv('HBNB_TYPE_STORAGE') == 'db':
     class Place(BaseModel, Base):
@@ -24,6 +31,9 @@ if getenv('HBNB_TYPE_STORAGE') == 'db':
         latitude = Column(Float)
         longitude = Column(Float)
         reviews = relationship("Review", backref="place", cascade="all, delete, delete-orphan")
+        amenities = relationship('Amenity', secondary='place_amenity',
+                                 back_populates='place_amenities',
+                                 viewonly=False)
 
 else:
     class Place(BaseModel):
@@ -37,4 +47,28 @@ else:
         price_by_night = ''
         latitude = ''
         longitude = ''
-        reviews = models.storage.all(Review)
+
+        @property
+        def reviews(self):
+            """
+            returns the list of Review instances with place_id equals
+            to the current Place.id => It will be the FileStorage
+            relationship between Place and Review
+            """
+            total_reviews = models.storage.all(Review)
+            result = []
+            for each in total_reviews.values():
+                result.append(each)
+            return result
+
+        @property
+        def amenities(self):
+            """Getter to amenities"""
+            self.amenity_ids = models.storage.all(Amenity)
+            return self.amenity_ids
+
+        @amenities.setter
+        def amenities(self, id):
+            """ Function setter to amenities """
+            if id.__class__.__name__ == 'Amenity':
+                self.amenity_ids.append(id)
