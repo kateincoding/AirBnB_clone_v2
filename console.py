@@ -126,21 +126,15 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         for i in range(1, len(pline)):
-            print(i)
             tupl = pline[i].partition('=')
             names.append(tupl[0])
             try:
-                print("llegué al try")
-                print(tupl)
                 if tupl[2][0] == '\"' and tupl[2][-1] == '\"':
-                    print("tuple")
                     value = tupl[2].replace('\"', '')
                     value = value.replace('_', ' ')
                     values.append(value)
-                    print("legué al try if")
                 else:
                     value = tupl[2]
-                    print("llegué al else")
                     if '.' in value or type(value) is float:
                         try:
                             value = float(value)
@@ -153,14 +147,10 @@ class HBNBCommand(cmd.Cmd):
                             values.append(value)
                         except Exception:
                             pass
-                print(values)
-                print(names)
             except IndexError:
-                print("INDEXERROR")
                 continue
 
         dictionary = dict(zip(names, values))
-        print("DICTIONARY ->>> {}".format(dictionary))
 
         new_instance = HBNBCommand.classes[_cls]()
         new_instance.__dict__.update(dictionary)

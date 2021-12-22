@@ -18,6 +18,7 @@ if getenv('HBNB_TYPE_STORAGE') == 'db':
         places = relationship("Place", backref="user", cascade="all, delete")
 else:
     class User(BaseModel):
+        """This class defines a user by various attributes"""
         email = ''
         password = ''
         first_name = ''
