@@ -17,6 +17,7 @@ if getenv('HBNB_TYPE_STORAGE') == 'db':
         cities = relationship('City', backref='state')
 else:
     class State(BaseModel):
+        """ State class """
         name = ''
         cities = models.storage.all(City)
 

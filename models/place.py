@@ -3,10 +3,11 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy.ext.declarative import declarative_base
 import models
-from sqlalchemy import Column, Integer, Float, String
 from sqlalchemy.orm import relationship, backref
+from sqlalchemy.sql.schema import Column, ForeignKey, Table
+from sqlalchemy.sql.sqltypes import String, Integer, Float
+
 from os import getenv
-from sqlalchemy.sql.schema import ForeignKey, Table
 from models.review import Review
 from models.amenity import Amenity
 
@@ -48,6 +49,7 @@ else:
         price_by_night = ''
         latitude = ''
         longitude = ''
+        amenity_ids = []
 
         @property
         def reviews(self):
