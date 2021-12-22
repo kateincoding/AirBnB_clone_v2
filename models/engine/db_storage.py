@@ -37,7 +37,6 @@ class DBStorage:
             data = self.__session.query(User).all()
             data += self.__session.query(State).all()
             data += self.__session.query(City).all()
-            data += self.__session.query(Amenity).all()
             data += self.__session.query(Place).all()
             data += self.__session.query(Review).all()
         else:
@@ -66,5 +65,10 @@ class DBStorage:
     def reload(self):
         Base.metadata.create_all(self.__engine)
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        scop_session = scoped_session(session)
-        self.__session = scop_session()
+        # scop_session = scoped_session(session)
+        # self.__session = scop_session()
+        self.__session = session()
+
+    def close(self):
+        """ close session """
+        self.__session.close()

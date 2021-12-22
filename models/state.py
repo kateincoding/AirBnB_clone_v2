@@ -2,9 +2,10 @@
 """ State Module for HBNB project """
 from models.base_model import BaseModel, Base
 import models
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.sql.schema import Column, ForeignKey
+from sqlalchemy.sql.sqltypes import String
 from sqlalchemy.orm import relationship
-from models import city
+from models.city import City
 from os import getenv
 
 
@@ -16,5 +17,5 @@ class State(BaseModel, Base):
         cities = relationship('City')
     else:
         name = ''
-        cities = models.storage.all(city.City)
+        cities = models.storage.all(City)
 
