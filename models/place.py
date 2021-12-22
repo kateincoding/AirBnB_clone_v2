@@ -26,18 +26,6 @@ if getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship("Review", backref="place",
                                cascade="all, delete")
 
-        @property
-        def reviews(self):
-            """
-            returns the list of Review instances with place_id equals
-            to the current Place.id => It will be the FileStorage
-            relationship between Place and Review
-            """
-            total_reviews = models.storage.all(Review)
-            result = []
-            for each in total_reviews.values():
-                result.append(each)
-            return result
 else:
     class Place(BaseModel):
         city_id = ''
@@ -50,5 +38,18 @@ else:
         price_by_night = ''
         latitude = ''
         longitude = ''
+
+        @property
+        def reviews(self):
+            """
+            returns the list of Review instances with place_id equals
+            to the current Place.id => It will be the FileStorage
+            relationship between Place and Review
+            """
+            total_reviews = models.storage.all(Review)
+            result = []
+            for each in total_reviews.values():
+                result.append(each)
+            return result
 
 
