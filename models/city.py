@@ -4,6 +4,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, DateTime
 from models.state import State
 from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 from os import getenv
 
 
@@ -16,3 +17,4 @@ class City(BaseModel, Base):
     else:
         name = ''
         state_id = ''
+    places = relationship("Place", backref="cities", cascade="all, delete")
