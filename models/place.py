@@ -12,9 +12,11 @@ from models.review import Review
 from models.amenity import Amenity
 
 
-column_amenity = Column('amenity_id', String(60), ForeignKey('amenities.id'))
+column_amenity = Column('amenity_id', String(60), ForeignKey('amenities.id'),
+                        nullable=False)
 place_amenity = Table('place_amenity', Base.metadata,
-                      Column('place_id', String(60), ForeignKey('places.id')),
+                      Column('place_id', String(60), ForeignKey('places.id'),
+                             nullable=False),
                       column_amenity)
 
 if getenv('HBNB_TYPE_STORAGE') == 'db':
