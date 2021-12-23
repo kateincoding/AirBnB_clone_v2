@@ -51,3 +51,27 @@ else:
         longitude = ''
         amenity_ids = []
 
+        @property
+        def reviews(self):
+            """
+            returns the list of Review instances with place_id equals
+            to the current Place.id => It will be the FileStorage
+            relationship between Place and Review
+            """
+            total_reviews = models.storage.all(Review)
+            result = []
+            for each in total_reviews.values():
+                result.append(each)
+            return result
+
+        @property
+        def amenities(self):
+            """Getter to amenities"""
+            self.amenity_ids = models.storage.all(Amenity)
+            return self.amenity_ids
+
+        @amenities.setter
+        def amenities(self, id):
+            """ Function setter to amenities """
+            if id.__class__.__name__ == 'Amenity':
+                self.amenity_ids.append(id)
