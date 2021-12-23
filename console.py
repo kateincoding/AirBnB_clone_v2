@@ -114,48 +114,31 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
-        pline = args.split()
-        _cls = pline[0]
-        values = []
-        names = []
-        if not _cls:
+        """Creates a new instance of BaseModel, saves it
+        Exceptions:
+            SyntaxError: when there is no args given
+            NameError: when there is no object taht has the name
+        """
+        try:
+            if not args:
+                raise SyntaxError()
+            my_list = args.split(" ")
+            # print(my_list)
+            obj = eval("{}()".format(my_list[0]))
+            # print(obj)
+            # print(my_list[1:])
+            for x in my_list[1:]:
+                ag = x.split("=")
+                ag[1] = eval(ag[1])
+                if type(ag[1]) is str:
+                    ag[1] = ag[1].replace("_", " ")
+                setattr(obj, ag[0], ag[1])
+            obj.save()
+            print("{}".format(obj.id))
+        except SyntaxError:
             print("** class name missing **")
-            return
-        elif _cls not in HBNBCommand.classes:
+        except NameError:
             print("** class doesn't exist **")
-            return
-        for i in range(1, len(pline)):
-            tupl = pline[i].partition('=')
-            names.append(tupl[0])
-            try:
-                if tupl[2][0] == '\"' and tupl[2][-1] == '\"':
-                    value = tupl[2].replace('\"', '')
-                    value = value.replace('_', ' ')
-                    values.append(value)
-                else:
-                    value = tupl[2]
-                    if '.' in value or type(value) is float:
-                        try:
-                            value = float(value)
-                            values.append(value)
-                        except Exception:
-                            pass
-                    else:
-                        try:
-                            value = int(value)
-                            values.append(value)
-                        except Exception:
-                            pass
-            except IndexError:
-                continue
-
-        dictionary = dict(zip(names, values))
-
-        new_instance = HBNBCommand.classes[_cls]()
-        new_instance.__dict__.update(dictionary)
-        new_instance.save()
-        print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """
