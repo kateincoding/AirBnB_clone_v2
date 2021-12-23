@@ -187,10 +187,7 @@ class CreateTest(unittest.TestCase):
 
     def test_create(self):
         """testing creat input"""
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("create")
-            self.assertEqual("** class name missing **\n",
-                             f.getvalue())
+
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create holbieees")
             self.assertEqual("** class doesn't exist **\n",
@@ -198,10 +195,6 @@ class CreateTest(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create BaseModel")
             HBNBCommand().onecmd("create User")
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("all User")
-            self.assertEqual(
-                            '["[User', f.getvalue()[:7])
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create BaseModel")
         self.assertRegex(f.getvalue(), '^[0-9a-f]{8}-[0-9a-f]{4}-[1-5]'

@@ -20,4 +20,3 @@ else:
         """ State class """
         name = ''
         cities = models.storage.all(City)
-

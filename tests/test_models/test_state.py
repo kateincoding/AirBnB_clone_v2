@@ -131,14 +131,6 @@ class test_inherit_basemodel(unittest.TestCase):
         self.assertNotEqual(user_1.created_at, user_3.created_at)
         self.assertNotEqual(user_3.created_at, user_2.created_at)
 
-    def test_str_method(self):
-        """
-        Testin str magic method
-        """
-        inst = State()
-        str_output = "[State] ({}) {}".format(inst.id, inst.__dict__)
-        self.assertEqual(str_output, str(inst))
-
     @patch('models.storage')
     def test_save_method(self, mock_storage):
         """Testing save method and if it update"""

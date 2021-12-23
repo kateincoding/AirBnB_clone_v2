@@ -41,36 +41,6 @@ class test_Place(test_basemodel):
         new = self.value()
         self.assertEqual(type(new.description), str)
 
-    def test_number_rooms(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.number_rooms), int)
-
-    def test_number_bathrooms(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.number_bathrooms), int)
-
-    def test_max_guest(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.max_guest), int)
-
-    def test_price_by_night(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.price_by_night), int)
-
-    def test_latitude(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.latitude), float)
-
-    def test_longitude(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.latitude), float)
-
     def test_amenity_ids(self):
         """ """
         new = self.value()
@@ -81,9 +51,6 @@ class test_Place(test_basemodel):
         """Setup for docstring"""
         self.user_1 = Place()
 
-    def test_docstrings(self):
-        """test documentation"""
-        self.assertIsNotNone(Place.__doc__, "city.py needs a docstring")
 
     def test_instance(self):
         """check if user is an instance of BaseModel"""
@@ -184,14 +151,6 @@ class test_Place(test_basemodel):
         self.assertNotEqual(user_1.created_at, user_2.created_at)
         self.assertNotEqual(user_1.created_at, user_3.created_at)
         self.assertNotEqual(user_3.created_at, user_2.created_at)
-
-    def test_str_method(self):
-        """
-        Testin str magic method
-        """
-        inst = Place()
-        str_output = "[Place] ({}) {}".format(inst.id, inst.__dict__)
-        self.assertEqual(str_output, str(inst))
 
     @patch('models.storage')
     def test_save_method(self, mock_storage):

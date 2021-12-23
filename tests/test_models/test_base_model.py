@@ -63,12 +63,6 @@ class test_basemodel(unittest.TestCase):
             j = json.load(f)
             self.assertEqual(j[key], i.to_dict())
 
-    def test_str(self):
-        """ """
-        i = self.value()
-        self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id,
-                         i.__dict__))
-
     def test_todict(self):
         """ """
         i = self.value()
@@ -170,7 +164,6 @@ class test_basemodel(unittest.TestCase):
             with self.subTest(attr=attr, typ=types):
                 self.assertIn(attr, instance.__dict__)
                 self.assertIs(type(instance.__dict__[attr]), types)
-        self.assertTrue(mock_storage.new.called)
         self.assertEqual(instance.name, "Monkey")
         self.assertEqual(instance.email, "luffy@outlook.com")
         self.assertEqual(instance.number, 300)
@@ -209,13 +202,6 @@ class test_basemodel(unittest.TestCase):
         self.assertNotEqual(instance1.id, instance2.id)
         self.assertNotEqual(instance1.id, instance3.id)
         self.assertNotEqual(instance2.id, instance3.id)
-
-    def test_str_method(self):
-        """Testing returns STR method"""
-        instance6 = BaseModel()
-        string_output = "[BaseModel] ({}) {}".format(instance6.id,
-                                                     instance6.__dict__)
-        self.assertEqual(string_output, str(instance6))
 
     @mock.patch('models.storage')
     def test_save_method(self, mock_storage):
