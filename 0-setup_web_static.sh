@@ -5,10 +5,10 @@ sudo apt-get -y upgrade
 sudo apt-get -y install nginx
 sudo mkdir -p /data/web_static/releases/test/
 sudo mkdir -p /data/web_static/shared/
-echo "Hello World" > /data/web_static/releases/test/index.html
-sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
-configure="\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current;\n\t}\n"
-sudo sed -i "40i $configure" /etc/nginx/sites-available/default
+echo "Holberton School" > /data/web_static/releases/test/index.html
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+configure="\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t}\n"
+sudo sed -i "49i\ $configure" /etc/nginx/sites-available/default
 sudo service nginx restart
 sudo service nginx reload
