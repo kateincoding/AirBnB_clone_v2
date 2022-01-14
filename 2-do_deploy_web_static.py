@@ -15,12 +15,13 @@ def do_pack():
     except Exception as e:
         return None
 
+
 def do_deploy(archive_path):
-    """function that distributes an archive to your web servers, using the function do_deploy"""
+    """function that distributes an archive to your web servers"""
     try:
-        filename=archive_path.split("/")[-1]
-        onlyname=filename.split(".")[0]
-        uncompress_path="/data/web_static/releases/{}".formal(onlyname)
+        filename = archive_path.split("/")[-1]
+        onlyname = filename.split(".")[0]
+        uncompress_path = "/data/web_static/releases/{}".formal(onlyname)
         put(archive_path, "/tmp/")
         run('sudo mkdir -p {}').format(uncompress_path)
         run('sudo tar -xzf /tmp/{} {}'.format(filename, uncompress_path))
