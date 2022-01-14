@@ -22,12 +22,14 @@ def do_deploy(archive_path):
         onlyname=filename.split(".")[0]
         uncompress_path="/data/web_static/releases/{}".formal(onlyname)
         put(archive_path, "/tmp/")
-        run('mkdir -p {}').format(uncompress_path)
-        run('tar -xf /tmp/{} {}'.format(filename, uncompress_path))
-        run('rm /tmp/{}'.format(filename))
-        run('rm -rf /data/web_static/current')
-        run('ln -s {} /data/web_static/current'.format(uncompress_path))
+        run('sudo mkdir -p {}').format(uncompress_path)
+        run('sudo tar -xzf /tmp/{} {}'.format(filename, uncompress_path))
+        run('sudo rm /tmp/{}'.format(filename))
+        run('sudo mv {}/web_static/* {}/'.format(uncompress_path))
+        run('sudo rm -rf {}/web_static'.format(uncompress_path))
+        run('sudo rm -rf /data/web_static/current')
+        run('sudo ln -s {} /data/web_static/current'.format(uncompress_path))
         print('New version deployed!')
         return True
-    except Exception as er2:
+    except BaseException:
         return False
