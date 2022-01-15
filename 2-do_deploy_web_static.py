@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """script that deploy archive!"""
-from fabric.api import *
+from fabric.api import env, local, put, run
 from datetime import datetime
+env.hosts = ['34.74.53.248', '3.84.98.183']
+env.user = 'ubuntu'
 
 
 def do_pack():
@@ -21,16 +23,17 @@ def do_deploy(archive_path):
     try:
         filename = archive_path.split("/")[-1]
         onlyname = filename.split(".")[0]
-        uncompress_path = "/data/web_static/releases/{}".formal(onlyname)
-        put(archive_path, "/tmp/")
-        run('sudo mkdir -p {}').format(uncompress_path)
-        run('sudo tar -xzf /tmp/{} {}'.format(filename, uncompress_path))
+        uncompress_path = "/data/web_static/releases/{}".format(onlyname)
+        put(archive_path, '/tmp/')
+        run('sudo mkdir -p {}/'.format(uncompress_path))
+        run('sudo tar -xzf /tmp/{} -C {}'.format(filename, uncompress_path))
         run('sudo rm /tmp/{}'.format(filename))
-        run('sudo mv {}/web_static/* {}/'.format(uncompress_path))
+        run('sudo mv {0}/web_static/* {0}/'.format(uncompress_path))
         run('sudo rm -rf {}/web_static'.format(uncompress_path))
         run('sudo rm -rf /data/web_static/current')
-        run('sudo ln -s {} /data/web_static/current'.format(uncompress_path))
+        run('sudo ln -s {}/ /data/web_static/current'.format(uncompress_path))
         print('New version deployed!')
         return True
     except BaseException:
+        print('Do it again')
         return False
