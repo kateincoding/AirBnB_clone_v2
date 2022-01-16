@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 """script that deploy archive!"""
-from fabric.api import env, local, put, run
+from fabric.api import *
 from datetime import datetime
 env.hosts = ['34.74.53.248', '3.84.98.183']
 env.user = 'ubuntu'
 
 
+@runs_once
 def do_pack():
     """function that generates tgz archive"""
     try:
