@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+"""db: file for DBStorage"""
 from sqlalchemy import create_engine
 from os import getenv
 from sqlalchemy import MetaData

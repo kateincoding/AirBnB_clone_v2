@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module defines a base class for all models in our hbnb clone"""
 import uuid
+from os import getenv
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, DateTime
@@ -13,7 +14,8 @@ date = "%Y-%m-%dT%H:%M:%S.%f"
 
 class BaseModel:
     """A base class for all hbnb models"""
-    id = Column(String(60), primary_key=True, unique=True, nullable=False)
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        id = Column(String(60), primary_key=True, unique=True, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
 
@@ -30,11 +32,11 @@ class BaseModel:
                 if k != "__class__" and k != "_sa_instance_state":
                     setattr(self, k, v)
             if "created_at" not in kwargs:
-                self.created_at = datetime.now()
+                self.created_at = datetime.utcnow()
             if "updated_at" not in kwargs:
-                self.updated_at = datetime.now()
-            if self.id is None:
-                self.id = str(uuid.uuid4())
+                self.updated_at = datetime.utcnow()
+            if "id" not in kwargs:
+                setattr(self, 'id', str(uuid.uuid4()))
 
     def delete(self):
         models.storage.delete(self)
@@ -46,7 +48,7 @@ class BaseModel:
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
-        self.updated_at = datetime.now()
+        self.updated_at = datetime.utcnow()
         models.storage.new(self)
         models.storage.save()
 
