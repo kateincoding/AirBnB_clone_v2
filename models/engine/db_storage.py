@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from sqlalchemy import (create_engine)
+from sqlalchemy import create_engine
 from os import getenv
 from sqlalchemy import MetaData
 from logging import info
