@@ -21,32 +21,30 @@ pssw = getenv('HBNB_MYSQL_PWD')
 host = getenv('HBNB_MYSQL_HOST')
 db = getenv('HBNB_MYSQL_DB')
 
+classes = {"City": City, "State": State, "User": User,
+           "Place": Place, "Review": Review, "Amenity": Amenity}
+
 
 class DBStorage:
     __engine = None
     __session = None
 
     def __init__(self):
+        """init"""
         self.__engine = create_engine(sql.format(user, pssw, host, db),
                                       pool_pre_ping=True)
         if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(bind=self.__engine, checkfirst=True)
 
     def all(self, cls=None):
-        if cls is None:
-            data = self.__session.query(User).all()
-            data += self.__session.query(State).all()
-            data += self.__session.query(City).all()
-            data += self.__session.query(Amenity).all()
-            data += self.__session.query(Place).all()
-            data += self.__session.query(Review).all()
-        else:
-            data = self.__session.query(eval(cls)).all()
+        """sum"""
         dictionary = {}
-        for element in data:
-            key = '{}.{}'.format(type(element).__name__, element.id)
-            value = element
-            dictionary[key] = value
+        for x in classes:
+            if cls is None or cls is classes[x] or cls is x:
+                data = self.__session.query(classes[x]).all()
+                for element in data:
+                    key = '{}.{}'.format(type(element).__name__, element.id)
+                    dictionary[key] = element
         return dictionary
 
     def new(self, obj):
