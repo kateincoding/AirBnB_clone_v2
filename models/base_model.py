@@ -32,9 +32,9 @@ class BaseModel:
                 if k != "__class__" and k != "_sa_instance_state":
                     setattr(self, k, v)
             if "created_at" not in kwargs:
-                self.created_at = datetime.utcnow()
+                self.created_at = datetime.now()
             if "updated_at" not in kwargs:
-                self.updated_at = datetime.utcnow()
+                self.updated_at = datetime.now()
             if "id" not in kwargs:
                 setattr(self, 'id', str(uuid.uuid4()))
 
