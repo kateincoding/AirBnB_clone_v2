@@ -15,7 +15,7 @@ def teardown_db(self):
 @app.route('/states_list', strict_slashes=False)
 def show_states_list():
     """html that shows the list of states"""
-    states = storage.all("State").values()
+    states = storage.all(State).values()
     return render_template('8-cities_by_states.html', states=states)
 
 
