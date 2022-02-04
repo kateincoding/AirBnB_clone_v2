@@ -17,12 +17,17 @@ def teardown_db(self):
 @app.route('/hbnb_filters', strict_slashes=False)
 def deploy_hbnb():
     """deploy a webpage"""
-    all_states = storage.all('State').values()
-    # """by id"""
-    # for state in storage.all("State").values():
-        # if state.id == id:
-            # return render_template("9-states.html", state=state)
-    return render_template("10-hbnb_filters.html")
+    states = storage.all(State).values()
+    states = sorted(states, key=lambda k: k.name)
+    stateList = []
+
+    for state in states:
+        stateList.append([state, sorted(state.cities, key=lambda k: k.name)])
+
+    amenities = storage.all(Amenity).values()
+    amenities = sorted(amenities, key=lambda k: k.name)
+    return render_template("10-hbnb_filters.html",
+                           states=stateList, amenities=amenities)
 
 
 if __name__ == '__main__':
